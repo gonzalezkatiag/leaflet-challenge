@@ -1,8 +1,9 @@
-// create URL for the geoJson
+// Store our API endpoint as queryUrl.
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
-// Perform a GET request to the query URL/
+
+// GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
-  // Once we get a response, send the data.features object to the createFeatures function.
+
   createFeatures(data.features);
 });
 
@@ -14,12 +15,12 @@ function createFeatures(earthquakeData) {
     layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
   }
   function Changecolor (depth){
-    if (depth>8)
+    if (depth>9)
     return "red"
     else if (depth>7)
-    return "yellow"
+    return "green"
     else if (depth>6)
-    return"blue"
+    return" blue"
     else if (depth>5)
     return "pink"
     else if (depth>4)
@@ -27,7 +28,7 @@ function createFeatures(earthquakeData) {
     else if (depth>3)
     return "orange"
     else if (depth>2)
-    return "green"
+    return "yellow"
     else
     return "grey"
 
@@ -48,8 +49,7 @@ function createFeatures(earthquakeData) {
     },
     onEachFeature: onEachFeature
   });
-
-  // Send our earthquakes layer to the createMap function/
+  
   createMap(earthquakes);
 }
 
@@ -75,7 +75,7 @@ function createMap(earthquakes) {
     Earthquakes: earthquakes
   };
 
-  // Create our map, giving it the streetmap and earthquakes layers to display on load.
+  // Create map, giving it the streetmap and earthquakes layers to display on load.
   var interactivemap = L.map("map", {
     center: [
       37.09, -95.71
@@ -98,7 +98,7 @@ function createMap(earthquakes) {
       console.log(legend);
       legend.onAdd = function () {
           var div = L.DomUtil.create("div", "info legend");
-          var mag = [-10, 10, 30, 50, 70, 90];
+          var mag = [0, 10, 30, 50, 70, 90];
           var colors = [
             "#98ee00",
             "#d4ee00",
@@ -115,6 +115,6 @@ function createMap(earthquakes) {
             }
             return div;
       };
-      // Add the info legend to the map.
+      // Add legend to the map.
 legend.addTo(interactivemap);
 }
